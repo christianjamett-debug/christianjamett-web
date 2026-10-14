@@ -49,20 +49,9 @@
   .en-inicio .pie-fijo { display: none; }
   /* Lema manuscrito bajo la portada, como en el christianjamett.com anterior */
   .lema { margin-top: 2px; text-align: right; font-family: "Gloria Hallelujah", cursive; font-size: 21px; line-height: 30px; color: #444; }
-  /* "Memento mori, et in luce renasceris": la foto sale de la oscuridad a la luz,
-     el lema se escribe de izquierda a derecha y una luz dorada lo recorre una vez */
-  .galeria.inicio img { animation: renacer 2.6s cubic-bezier(.4, 0, .2, 1) .2s both; }
-  .galeria.inicio .lema {
-    background: linear-gradient(100deg, #444 42%, #e2b65a 50%, #444 58%) 100% 0 / 250% 100% no-repeat;
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: escribir 2.4s cubic-bezier(.6, .05, .3, 1) 1.8s both, destello 1.8s ease-in-out 4.4s both;
-  }
-  @keyframes renacer { from { filter: brightness(.06) contrast(1.2); } to { filter: none; } }
-  @keyframes escribir { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 -2% 0 0); } }
-  @keyframes destello { from { background-position: 100% 0; } to { background-position: 0 0; } }
-  @media (prefers-reduced-motion: reduce) {
-    .galeria.inicio img, .galeria.inicio .lema { animation: none; }
-  }
+  /* El lema aparece con un fundido suave */
+  .lema { animation: fundido 1.6s ease .4s both; }
+  @keyframes fundido { from { opacity: 0; } }
   /* Pie fijo bajo la tira: no se mueve con las fotos, cambia según la foto a la vista */
   .pie-fijo {
     position: fixed; left: 315px; top: calc(146px + max(100vh - 283px, 320px));
