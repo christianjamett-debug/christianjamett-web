@@ -177,8 +177,6 @@
 
     .galeria, .texto, .tienda, .ficha { position: static; padding: 24px 16px 40px; }
     .galeria { flex-direction: column; }
-    /* Inicio en el celular: solo la foto de portada, quieta */
-    .galeria.inicio figure + figure { display: none; }
     /* Inicio: la foto centrada en el alto que queda bajo la cabecera (65 px) y la página sin desplazamiento */
     body.en-inicio { overflow: hidden; }
 
@@ -592,9 +590,8 @@
   Object.values(paginas).forEach(p => p.pies && p.fotos.forEach((src, i) => pieDe.set(src, p.pies[i])));
   const textoPie = src => { const pie = pieDe.get(src); return pie ? `${t(pie[0])}${pie[1] ? ', ' + pie[1] : ''}.` : ''; };
 
-  // Inicio: la foto de portada actual y las dos primeras de cada serie
-  const series = ['arica-y-un-poco-mas', 'napoli-della-illusioni', 'frontier', 'santisima', 'anata', 'afrodescendants', 'chile-naked', 'my-tokyo'];
-  paginas[''] = { titulo: { es: 'Home', it: 'Home', fr: 'Accueil', en: 'Home' }, fotos: [U + '2026/01/entierro10-2-1536x1024.jpg'].concat(series.flatMap(s => paginas[s].fotos.slice(0, 2))) };
+  // Inicio: solo la foto de portada, quieta (en escritorio y en el celular)
+  paginas[''] = { titulo: { es: 'Home', it: 'Home', fr: 'Accueil', en: 'Home' }, fotos: [U + '2026/01/entierro10-2-1536x1024.jpg'] };
 
   /* ---------- Render ---------- */
   const menu = document.getElementById('menu');
