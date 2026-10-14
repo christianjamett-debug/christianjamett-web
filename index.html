@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Christian Jamett</title>
 <meta name="description" content="Christian Jamett, fotoperiodista chileno. Arica, Chile.">
+<link rel="canonical" href="https://christianjamett.com/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://christianjamett.com/">
+<meta property="og:title" content="Christian Jamett">
+<meta property="og:description" content="Christian Jamett, fotoperiodista chileno. Arica, Chile.">
+<meta property="og:image" content="https://christianjamett.com/img/2026/01/entierro10-2-1536x1024.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Open Sans 300/600: la misma que usa albertopolophotography.com. Inter 200 imita su logo (Helvetica Neue Light en PNG). -->
@@ -49,9 +57,12 @@
   .en-inicio .pie-fijo { display: none; }
   /* Lema manuscrito bajo la portada, como en el christianjamett.com anterior */
   .lema { margin-top: 2px; text-align: right; font-family: "Gloria Hallelujah", cursive; font-size: 21px; line-height: 30px; color: #444; }
-  /* El lema aparece con un fundido suave */
+  /* La portada y el lema aparecen con un fundido suave */
+  .galeria.inicio img { animation: fundido 1.4s ease both; }
   .lema { animation: fundido 1.6s ease .4s both; }
   @keyframes fundido { from { opacity: 0; } }
+  /* Al cambiar de idioma se redibuja todo: sin esto los fundidos y las cintas partirían de nuevo */
+  .quieto #contenido *, .quieto .menu li { animation: none !important; transition: none !important; }
   /* Pie fijo bajo la tira: no se mueve con las fotos, cambia según la foto a la vista */
   .pie-fijo {
     position: fixed; left: 315px; top: calc(146px + max(100vh - 283px, 320px));
@@ -609,6 +620,7 @@
   /* ---------- Render ---------- */
   const menu = document.getElementById('menu');
   const contenido = document.getElementById('contenido');
+  const raiz = document.documentElement;
   const lateral = document.querySelector('.lateral');
   const abrirMenu = document.getElementById('abrir-menu');
   const esc = s => String(s).replace(/"/g, '&quot;');
@@ -676,7 +688,7 @@
     if (x.isIntersecting) { x.target.classList.add('visible'); observador.unobserve(x.target); }
   }), { rootMargin: '0px 0px -8% 0px' }) : null;
   const observarApariciones = () => contenido.querySelectorAll('[data-aparece]').forEach(el =>
-    observador ? observador.observe(el) : el.classList.add('visible'));
+    observador && !raiz.classList.contains('quieto') ? observador.observe(el) : el.classList.add('visible'));
 
   function vistaTienda() {
     return `<div class="tienda"><div class="grilla">${productos.map((p, i) => `<a href="#/venta/${p.id}">
@@ -766,12 +778,13 @@
   });
   addEventListener('keydown', e => { if (e.key === 'Escape' && lateral.classList.contains('abierto')) { cerrarMenu(); abrirMenu.focus(); } });
 
-  addEventListener('hashchange', () => { animando = false; destino = 0; cerrarMenu(); mostrar(); scrollTo(0, 0); });
+  addEventListener('hashchange', () => { raiz.classList.remove('quieto'); animando = false; destino = 0; cerrarMenu(); mostrar(); scrollTo(0, 0); });
   document.getElementById('idiomas').addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
     lang = b.lang;
     try { localStorage.setItem('idioma', lang); } catch (err) {}
+    raiz.classList.add('quieto'); // mismo contenido en otro idioma: sin repetir las entradas
     mostrar();
   });
   mostrar();

@@ -1,0 +1,34 @@
+# Cloudflare Pages: direcciones del WordPress anterior → rutas del sitio nuevo (#/...)
+/favicon.ico                         /favicon.svg                      301
+/wp-content/uploads/*                /img/:splat                       301
+
+/inicio                              /                                 301
+/inicio/                             /                                 301
+/portfolio/                          /                                 301
+/venta/                              /#/venta                          301
+/diaspora/                           /#/venta/diaspora                 301
+/abubook/                            /#/venta/abu                      301
+/arica-y-un-poco-mas/                /#/arica-y-un-poco-mas            301
+/napoli-porto-della-illusioni/       /#/napoli-della-illusioni         301
+/frontier/                           /#/frontier                       301
+/santisima/                          /#/santisima                      301
+/entrelosagrado-ylopagano/           /#/anata                          301
+/afrodescendientes/                  /#/afrodescendants                301
+/chile-naked/                        /#/chile-naked                    301
+/my-tokyo/                           /#/my-tokyo                       301
+/press/                              /#/tearsheets                     301
+/galeriaprensa/                      /#/tearsheets                     301
+/interview/                          /#/interview                      301
+/daily/                              /#/blog                           301
+/photo-studio/                       /#/photo-studio                   301
+/estudio-fotografico/                /#/photo-studio                   301
+/exhibitions/                        /#/exhibitions                    301
+/exposicion-*                        /#/exhibitions                    301
+/inaguracion-*                       /#/exhibitions                    301
+/bio/                                /#/bio                            301
+/contact/                            /#/contact                        301
+
+/estar-el-vinculo-con-la-luz/                  /#/blog/estar-el-vinculo-con-la-luz                  301
+/fotografo-inmortal/                           /#/blog/fotografo-inmortal                           301
+/seoul-enigmatic-city/                         /#/blog/seoul-enigmatic-city                         301
+/the-movie-the-excitement-and-a-little-more/   /#/blog/the-movie-the-excitement-and-a-little-more   301
