@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Christian Jamett</title>
+<meta name="description" content="Christian Jamett, fotoperiodista chileno. Arica, Chile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Open Sans 300/600: la misma que usa albertopolophotography.com. Inter 200 imita su logo (Helvetica Neue Light en PNG). -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,600;1,300&family=Inter:wght@200&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body { font-family: "Open Sans", sans-serif; font-weight: 300; font-size: 14px; line-height: 22px; color: #000; }
+  a { color: inherit; text-decoration: none; }
+  .lucida { font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; color: #bababa; }
+
+  /* Columna izquierda fija; el fondo blanco tapa las fotos que pasan por debajo */
+  .lateral {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 315px; z-index: 300;
+    background: #fff; padding: 0 30px; overflow: hidden auto;
+  }
+  .logo {
+    display: block; margin-top: 26px; height: 52px;
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 200;
+    font-size: 39px; line-height: 52px; letter-spacing: -.035em; color: #808080; white-space: nowrap;
+  }
+  .menu { list-style: none; margin-top: 62px; margin-bottom: 20px; }
+  .menu li.espacio { height: 22px; }
+  .menu a:hover, .menu a[aria-current="page"] { color: #666; }
+  .derechos { font-size: 13px; line-height: 17px; }
+  .idiomas { margin-top: 10px; font-size: 13px; line-height: 17px; }
+  .idiomas button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; margin-right: 8px; }
+  .idiomas button:hover, .idiomas button[aria-pressed="true"] { color: #666; }
+  .ig { display: inline-block; margin-top: 12px; color: #bababa; }
+  .ig:hover { color: #666; }
+
+  /* Tira horizontal de fotos */
+  .galeria { position: absolute; top: 140px; left: 315px; display: flex; gap: 17px; padding-right: 30px; }
+  .galeria figure { flex: none; }
+  .galeria img { display: block; height: calc(100vh - 283px); min-height: 320px; width: auto; background: #f9f9f9; }
+  .galeria figcaption { margin-top: 6px; font-size: 11px; font-weight: 800; line-height: 17px; display: none; }
+  /* Pie fijo bajo la tira: no se mueve con las fotos, cambia según la foto a la vista */
+  .pie-fijo {
+    position: fixed; left: 315px; top: calc(146px + max(100vh - 283px, 320px));
+    font-size: 11px; font-weight: 800; line-height: 17px; transition: opacity .25s;
+  }
+
+  /* Tienda: secciones por tipo; cada producto en un marco igual, con la foto completa */
+  /* Una sola grilla continua (sin huecos); el tipo se nombra sobre el primer producto de cada grupo */
+  .tienda { position: absolute; top: 140px; left: 315px; right: 30px; padding-bottom: 60px; }
+  .grilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 40px 22px; }
+  .tipo {
+    display: block; min-height: 26px; margin-bottom: 14px; border-bottom: 1px solid #eee;
+    font-size: 11px; line-height: 17px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .marco { display: block; aspect-ratio: 1; background: #f6f6f6; padding: 12px; }
+  .marco img { display: block; width: 100%; height: 100%; object-fit: contain; transition: opacity .2s; }
+  .grilla a:hover .marco img { opacity: .85; }
+  .pie { margin-top: 10px; font-size: 11px; line-height: 17px; }
+  .pie strong, .ficha strong { font-weight: 700; }
+  .pie .precio, .ficha .precio { color: #888; }
+  .ficha { position: absolute; top: 140px; left: 315px; right: 30px; display: flex; gap: 40px; align-items: flex-start; padding-bottom: 60px; }
+  .ficha .imagenes { flex: none; display: grid; gap: 17px; width: 360px; }
+  .ficha .imagenes img { display: block; width: 100%; height: auto; background: #f6f6f6; }
+  .ficha .datos { max-width: 400px; font-size: 11px; line-height: 17px; }
+  .ficha .datos p + p { margin-top: 11px; }
+  .ficha .datos a:hover { color: #666; }
+
+  /* ---------- Blog ---------- */
+  .blog { position: absolute; top: 140px; left: 315px; right: 30px; max-width: 980px; padding-bottom: 80px; }
+  .entrada-item { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 36px; align-items: center; padding-bottom: 48px; margin-bottom: 48px; border-bottom: 1px solid #eee; }
+  .entrada-item:last-child { border-bottom: 0; margin-bottom: 0; }
+  .entrada-item.destacada { grid-template-columns: 1fr; gap: 24px; }
+  .entrada-item .foto { display: block; overflow: hidden; aspect-ratio: 3 / 2; background: #f6f6f6; }
+  .entrada-item.destacada .foto { aspect-ratio: 16 / 9; }
+  .entrada-item .foto img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
+  .entrada-item:hover .foto img { transform: scale(1.04); }
+  .meta { font-size: 11px; line-height: 17px; letter-spacing: .08em; text-transform: uppercase; }
+  .entrada-item h2 { font-weight: 300; font-size: 28px; line-height: 1.2; margin: 10px 0 12px; color: #111; }
+  .entrada-item.destacada h2 { font-size: 36px; }
+  .entrada-item .extracto { color: #888; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .leer { display: inline-block; margin-top: 16px; font-size: 13px; color: #000; }
+  .leer span { display: inline-block; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+  .entrada-item:hover .leer span { transform: translateX(6px); }
+
+  .entrada { position: absolute; top: 140px; left: 315px; right: 30px; max-width: 720px; padding-bottom: 100px; }
+  .entrada .volver { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .entrada .volver:hover { color: #666; }
+  .entrada h1 { font-weight: 300; font-size: 40px; line-height: 1.15; margin: 22px 0 14px; color: #111; }
+  .entrada .portada { margin: 36px 0 40px; }
+  .entrada img { display: block; width: 100%; height: auto; background: #f6f6f6; }
+  .cuerpo p { font-size: 16px; line-height: 28px; color: #555; }
+  .cuerpo p + p { margin-top: 20px; }
+  .cuerpo .lead { font-size: 20px; line-height: 30px; color: #222; margin-bottom: 28px; }
+  .cuerpo h2 { font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #111; margin: 48px 0 16px; }
+  .cuerpo .cita { font-weight: 300; font-size: 26px; line-height: 36px; color: #111; border-left: 1px solid #111; padding-left: 22px; margin: 40px 0; }
+  .cuerpo figure { margin: 44px 0; }
+  .cuerpo a { color: #000; text-decoration: underline; text-decoration-color: #ccc; text-underline-offset: 3px; }
+  .cuerpo a:hover { text-decoration-color: #000; }
+  .vecinas { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 64px; padding-top: 24px; border-top: 1px solid #eee; }
+  .vecinas a { display: block; }
+  .vecinas a + a, .vecinas .derecha { text-align: right; }
+  .vecinas strong { display: block; margin-top: 6px; font-weight: 300; font-size: 18px; line-height: 1.3; color: #111; transition: color .2s; }
+  .vecinas a:hover strong { color: #888; }
+
+  /* Barra de lectura y apariciones al bajar */
+  .progreso { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: #111; transform-origin: 0 50%; transform: scaleX(0); z-index: 500; pointer-events: none; }
+  [data-aparece] { opacity: 0; transform: translateY(18px); transition: opacity .9s ease, transform .9s cubic-bezier(.2, .7, .2, 1); }
+  [data-aparece].visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { [data-aparece] { transform: none; } }
+
+  /* Páginas de texto (Bio, Exhibitions, Contact) */
+  .texto { position: absolute; top: 140px; left: 315px; max-width: 690px; padding-right: 30px; padding-bottom: 60px; color: #999; }
+  .texto strong { font-weight: 600; }
+  .texto p + p { margin-top: 22px; }
+  .texto a { color: #666; }
+
+  .abrir-menu { display: none; }
+  .cintas { display: none; }
+
+  /* Pantallas medianas: columna izquierda más angosta */
+  @media (max-width: 1024px) {
+    .lateral { width: 260px; }
+    .logo { font-size: 32px; }
+    .galeria, .texto, .tienda, .ficha, .pie-fijo, .blog, .entrada { left: 260px; }
+    .ficha { flex-direction: column; }
+    .ficha .imagenes { width: min(360px, 100%); }
+  }
+
+  /* Celular: cabecera con botón de menú y contenido a todo el ancho */
+  @media (max-width: 760px) {
+    .lateral { position: sticky; top: 0; width: auto; bottom: auto; padding: 0 16px; overflow: visible; border-bottom: 1px solid #f0f0f0; }
+    .logo { display: inline-block; margin: 14px 0; height: auto; font-size: 28px; line-height: 36px; position: relative; z-index: 2; }
+
+    /* Botón: dos líneas finas que se cruzan en una ✕ al abrir */
+    .abrir-menu {
+      display: block; position: absolute; top: 14px; right: 6px; z-index: 2;
+      width: 44px; height: 36px; background: none; border: 0; cursor: pointer;
+    }
+    .abrir-menu span {
+      position: absolute; left: 11px; width: 22px; height: 1px; background: #555;
+      transition: transform .35s cubic-bezier(.2, .7, .2, 1), top .35s cubic-bezier(.2, .7, .2, 1);
+    }
+    .abrir-menu span:first-child { top: 14px; }
+    .abrir-menu span:last-child { top: 21px; }
+    .lateral.abierto .abrir-menu span:first-child { top: 18px; transform: rotate(45deg); }
+    .lateral.abierto .abrir-menu span:last-child { top: 18px; transform: rotate(-45deg); }
+
+    /* Menú a pantalla completa, letra grande y ligera; los ítems entran escalonados */
+    .navegacion {
+      position: fixed; inset: 0; z-index: 1; background: #fff; overflow-y: auto;
+      padding: 80px 24px 24px; display: flex; flex-direction: column;
+      opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s linear .3s;
+    }
+    .lateral.abierto .navegacion { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+    /* Franja esmerilada bajo el nombre y el botón: lo que se desplaza por debajo se ve borroso */
+    .lateral::before {
+      content: ""; position: fixed; top: 0; left: 0; right: 0; height: 64px; z-index: 2; pointer-events: none;
+      background: rgba(255, 255, 255, .7);
+      -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .lateral.abierto::before { opacity: 1; }
+    .logo, .abrir-menu { z-index: 3; }
+    .menu { margin: 0 0 24px; }
+    .menu li { opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s cubic-bezier(.2, .7, .2, 1); }
+    .lateral.abierto .menu li { opacity: 1; transform: none; transition-delay: calc(var(--i) * 25ms + 60ms); }
+    /* Tamaño según el alto visible real (con las barras del navegador), para que quepa sin desplazarse */
+    .menu a { display: inline-block; font-size: clamp(16px, 2.7svh, 20px); line-height: clamp(24px, 4.1svh, 31px); }
+    .menu li.espacio { height: clamp(6px, 1.4svh, 12px); }
+    .menu a[aria-current="page"] { color: #aaa; }
+    .derechos { margin-top: auto; }
+    .idiomas { margin-top: 14px; font-size: 14px; }
+    .idiomas button { margin-right: 14px; padding: 4px 0; }
+
+    .galeria, .texto, .tienda, .ficha { position: static; padding: 24px 16px 40px; }
+    .galeria { flex-direction: column; }
+    /* Inicio en el celular: solo la foto de portada, quieta */
+    .galeria.inicio figure + figure { display: none; }
+    /* Inicio: la foto centrada en el alto que queda bajo la cabecera (65 px) y la página sin desplazamiento */
+    body.en-inicio { overflow: hidden; }
+
+    /* Cintas "For sale / Blog / Studio" (las de christianjamett.com): se pegan una tras otra,
+       cada una con su inclinación, y al tocarlas se aprietan y se enderezan */
+    .galeria.inicio .cintas { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 26px; }
+    /* Cinta de papel dibujada: translúcida, bordes rasgados, fibra, sombra suave y destacador amarillo */
+    .cinta {
+      display: block; -webkit-tap-highlight-color: transparent;
+      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .10)) drop-shadow(0 6px 10px rgba(0, 0, 0, .06));
+      transform: translateX(var(--x)) rotate(var(--r));
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), filter .3s;
+      /* "backwards" y no "both": al terminar manda el transform normal, así funciona el efecto al tocar */
+      animation: pegar .6s cubic-bezier(.2, .9, .25, 1.25) backwards;
+      animation-delay: calc(var(--n) * 130ms + 250ms);
+    }
+    .cinta:active {
+      transform: translateX(var(--x)) translateY(-3px) rotate(0deg) scale(1.03); transition-duration: .12s;
+      filter: drop-shadow(0 4px 3px rgba(0, 0, 0, .12)) drop-shadow(0 12px 16px rgba(0, 0, 0, .10));
+    }
+    .papel {
+      display: block; padding: 10px 38px 8px; min-width: 190px; text-align: center;
+      background:
+        repeating-linear-gradient(97deg, rgba(255, 255, 255, .10) 0 1px, transparent 1px 4px),
+        repeating-linear-gradient(3deg, rgba(120, 100, 60, .05) 0 1px, transparent 1px 6px),
+        linear-gradient(180deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 40%, rgba(0, 0, 0, .04)),
+        rgba(226, 214, 186, .9);
+      clip-path: polygon(0 0, 100% 0, 97.5% 11%, 100% 22%, 98% 34%, 100% 46%, 97% 58%, 99.5% 70%, 97.5% 82%, 100% 92%, 98.5% 100%,
+        1.5% 100%, 0 91%, 2.5% 80%, .5% 68%, 3% 56%, 0 44%, 2% 32%, .5% 20%, 3% 9%);
+    }
+    .marca {
+      font-family: "Gochi Hand", cursive; font-size: 32px; line-height: 38px; color: #151515; white-space: nowrap;
+      padding: 0 6px;
+      background: linear-gradient(176deg, transparent 52%, rgba(255, 230, 0, .9) 53%, rgba(255, 230, 0, .9) 80%, transparent 81%);
+    }
+    .cinta:nth-child(1) { --x: -8px; --r: -2.5deg; --n: 0; }
+    .cinta:nth-child(2) { --x: 12px; --r: 1.8deg; --n: 1; }
+    .cinta:nth-child(3) { --x: -4px; --r: -1.2deg; --n: 2; }
+    @keyframes pegar {
+      from { opacity: 0; transform: translate(var(--x), -14px) rotate(calc(var(--r) - 7deg)) scale(1.08); }
+      to { opacity: 1; transform: translateX(var(--x)) rotate(var(--r)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @keyframes pegar { from { opacity: 0; } to { opacity: 1; } }
+    }
+    .galeria.inicio {
+      justify-content: center; padding: 0 16px 24px;
+      height: calc(100vh - 65px); height: calc(100svh - 65px);
+    }
+    @media (prefers-reduced-motion: reduce) { .menu li { transform: none; } }
+    .galeria img { width: 100%; height: auto; min-height: 0; }
+    .galeria figcaption { display: block; }
+    .pie-fijo { display: none; }
+    .grilla { grid-template-columns: repeat(2, 1fr); gap: 28px 14px; }
+    .marco { padding: 8px; }
+    .ficha { gap: 24px; }
+    .ficha .imagenes, .ficha .datos { width: 100%; max-width: none; }
+    .blog, .entrada { position: static; padding: 24px 16px 56px; }
+    .entrada-item { grid-template-columns: 1fr; gap: 18px; padding-bottom: 36px; margin-bottom: 36px; }
+    .entrada-item h2, .entrada-item.destacada h2 { font-size: 24px; }
+    .entrada h1 { font-size: 30px; }
+    .cuerpo .cita { font-size: 22px; line-height: 31px; }
+    .vecinas { grid-template-columns: 1fr; }
+    .vecinas a + a, .vecinas .derecha { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="lateral">
+  <a class="logo" href="#/">Christian Jamett</a>
+  <button class="abrir-menu" id="abrir-menu" type="button" aria-expanded="false" aria-controls="navegacion"><span></span><span></span></button>
+  <div class="navegacion" id="navegacion">
+    <ul class="menu" id="menu"></ul>
+    <div class="derechos lucida" id="derechos"></div>
+    <div class="idiomas lucida" id="idiomas"></div>
+    <a class="ig" href="https://www.instagram.com/christianjamett/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="2" fill="currentColor"/><rect x="1.5" y="5.5" width="13" height="1" fill="#fff"/><circle cx="8" cy="9" r="3.4" fill="#fff"/><circle cx="8" cy="9" r="2.3" fill="currentColor"/><rect x="11" y="2" width="3" height="2.4" fill="#fff"/></svg>
+    </a>
+  </div>
+</aside>
+
+<div class="progreso" id="progreso" aria-hidden="true"></div>
+<main id="contenido"></main>
+
+<script>
+  // Fotos guardadas dentro del sitio (copiadas desde el WordPress de christianjamett.com, misma ruta)
+  const U = 'img/';
+  const fotos = (base, nombres) => nombres.map(n => U + base + n);
+  const IDIOMAS = ['es', 'it', 'fr', 'en'];
+  const CORREO = 'info@christianjamett.com';
+
+  let lang = 'es';
+  try { if (IDIOMAS.includes(localStorage.getItem('idioma'))) lang = localStorage.getItem('idioma'); } catch (e) {}
+  // Un texto puede ser igual en todos los idiomas (string) o traducido ({ es, it, fr, en })
+  const t = v => (v && typeof v === 'object') ? (v[lang] ?? v.es) : v;
+
+  const ui = {
+    derechos: { es: 'all rights reserved © christian jamett', it: 'tutti i diritti riservati © christian jamett', fr: 'tous droits réservés © christian jamett', en: 'all rights reserved © christian jamett' },
+    foto: { es: 'fotografía', it: 'fotografia', fr: 'photographie', en: 'photograph' },
+    consultas: { es: 'Consultas y pedidos', it: 'Informazioni e ordini', fr: 'Renseignements et commandes', en: 'Inquiries and orders' },
+    aPedido: { es: 'Consultar', it: 'Su richiesta', fr: 'Sur demande', en: 'On request' },
+    cadaUna: { es: 'c/u', it: "l'una", fr: 'pièce', en: 'each' },
+    expos: { es: 'Exposiciones:', it: 'Mostre:', fr: 'Expositions :', en: 'Exhibitions:' },
+    contacto: { es: 'Contacto:', it: 'Contatti:', fr: 'Contact :', en: 'Contact:' },
+    menu: { es: 'Menú', it: 'Menu', fr: 'Menu', en: 'Menu' },
+    leer: { es: 'Leer', it: 'Leggi', fr: 'Lire', en: 'Read' },
+    lectura: { es: 'min de lectura', it: 'min di lettura', fr: 'min de lecture', en: 'min read' },
+    anterior: { es: 'Entrada anterior', it: 'Articolo precedente', fr: 'Article précédent', en: 'Previous post' },
+    siguiente: { es: 'Entrada siguiente', it: 'Articolo successivo', fr: 'Article suivant', en: 'Next post' },
+    atajos: { es: 'Accesos', it: 'Collegamenti', fr: 'Raccourcis', en: 'Shortcuts' },
+    cintaVenta: { es: 'Venta', it: 'In vendita', fr: 'À vendre', en: 'For sale' },
+    cintaEstudio: { es: 'Estudio', it: 'Studio', fr: 'Studio', en: 'Studio' },
+    cerrar: { es: 'Cerrar', it: 'Chiudi', fr: 'Fermer', en: 'Close' },
+    cuadro: { es: 'Cuadros', it: 'Quadri', fr: 'Tableaux', en: 'Framed works' },
+    print: { es: 'Prints · edición limitada', it: 'Stampe · edizione limitata', fr: 'Tirages · édition limitée', en: 'Prints · limited edition' },
+    libro: { es: 'Libros', it: 'Libri', fr: 'Livres', en: 'Books' },
+    postal: { es: 'Postales', it: 'Cartoline', fr: 'Cartes postales', en: 'Postcards' },
+  };
+
+  /* ---------- Venta ---------- */
+  const textoPrint = {
+    es: 'Chiches fotográficos, edición limitada.<br>Papel 100 % algodón.<br>20 × 30 cm.<br>También en 60 × 90 cm, edición de 7 copias.<br>Firmada, con certificado de autenticidad.',
+    it: 'Chiches fotográficos, edizione limitata.<br>Carta 100% cotone.<br>20 × 30 cm.<br>Disponibile anche in 60 × 90 cm, edizione di 7 copie.<br>Firmata, con certificato di autenticità.',
+    fr: 'Chiches fotográficos, édition limitée.<br>Papier 100 % coton.<br>20 × 30 cm.<br>Aussi en 60 × 90 cm, édition de 7 exemplaires.<br>Signé, avec certificat d’authenticité.',
+    en: 'Chiches fotográficos, limited edition.<br>100% cotton paper.<br>20 × 30 cm.<br>Also in 60 × 90 cm, edition of 7.<br>Signed, with certificate of authenticity.',
+  };
+  const textoPostal = {
+    es: 'Edición analógica, proceso tradicional de laboratorio.<br>La textura, el grano y la autenticidad de la fotografía química.<br>10 × 15 cm.<br>Firmadas y embaladas con cuidado para su envío.',
+    it: 'Edizione analogica, stampa tradizionale in camera oscura.<br>La texture, la grana e l’autenticità della fotografia chimica.<br>10 × 15 cm.<br>Firmate e imballate con cura per la spedizione.',
+    fr: 'Édition argentique, tirage traditionnel en laboratoire.<br>La texture, le grain et l’authenticité de la photographie chimique.<br>10 × 15 cm.<br>Signées et soigneusement emballées pour l’envoi.',
+    en: 'Analog edition, traditional darkroom process.<br>The texture, grain and authenticity of chemical photography.<br>10 × 15 cm (4 × 6 in).<br>Signed and carefully packaged for shipping.',
+  };
+  const postal = anio => ({ es: `Postales 10 × 15 cm, ${anio}.`, it: `Cartoline 10 × 15 cm, ${anio}.`, fr: `Cartes postales 10 × 15 cm, ${anio}.`, en: `Postcards 10 × 15 cm, ${anio}.` });
+  // shortcut: tipo de cambio fijo para los valores aproximados; actualizarlo si el dólar se mueve mucho.
+  const CLP_POR_USD = 950;
+
+  // Orden por tamaño, de mayor a menor: cuadro, prints (20 × 30 y 60 × 90 cm), libros, postales (10 × 15 cm)
+  const productos = [
+    // Cuadro: sin precio publicado, se consulta
+    { id: 'afrodescendiente', tipo: 'cuadro', titulo: 'Afrodescendiente',
+      fotos: ['2022/06/1.jpg', '2022/06/4.jpg', '2022/06/14.jpg', '2022/06/6.jpg'].map(n => U + n),
+      corto: { es: 'Cuadro.', it: 'Quadro.', fr: 'Tableau.', en: 'Framed work.' },
+      largo: { es: 'Afrodescendiente más allá de África.', it: 'Afrodescendiente más allá de África.', fr: 'Afrodescendiente más allá de África.', en: 'Afrodescendiente más allá de África.' } },
+    { id: 'desierto-florido', tipo: 'print', titulo: 'Desierto Florido', clp: 150000,
+      fotos: [U + '2025/09/018.-%C2%A9-CHRISTIANJAMETT-2002-DESIERTO-FLORIDO-ARICA-CHILE-1536x1021.jpg'],
+      corto: { es: 'Desierto de Arica, 2002.', it: 'Deserto di Arica, 2002.', fr: 'Désert d’Arica, 2002.', en: 'Arica desert, 2002.' },
+      intro: { es: 'La serie que dio inicio a cinco proyectos más de instalación y performance.', it: 'La serie che ha dato inizio ad altri cinque progetti di installazione e performance.', fr: 'La série qui a donné naissance à cinq autres projets d’installation et de performance.', en: 'The series that started five further installation and performance projects.' },
+      largo: textoPrint },
+    { id: 'apocalipsis', tipo: 'print', titulo: 'Apocalipsis', clp: 150000,
+      fotos: [U + '2022/06/4-2.jpg'],
+      corto: { es: 'Piscina Antilén, Santiago, 2003.', it: 'Piscina Antilén, Santiago, 2003.', fr: 'Piscine Antilén, Santiago, 2003.', en: 'Antilén Pool, Santiago, 2003.' },
+      largo: textoPrint },
+    { id: 'antropoglifos', tipo: 'print', titulo: 'Antropoglifos', clp: 100000,
+      fotos: [U + '2022/06/6-2.jpg'],
+      corto: { es: 'Cerro sagrado, Arica, 2004.', it: 'Collina sacra, Arica, 2004.', fr: 'Colline sacrée, Arica, 2004.', en: 'Sacred hill, Arica, 2004.' },
+      largo: textoPrint },
+    { id: 'desnudos-en-las-alturas', tipo: 'print', titulo: 'Desnudos en las alturas', clp: 150000,
+      fotos: [U + '2022/06/5-2.jpg'],
+      corto: { es: 'Putre, a más de 3.500 m, 2005.', it: 'Putre, oltre 3.500 m, 2005.', fr: 'Putre, à plus de 3 500 m, 2005.', en: 'Putre, above 3,500 m, 2005.' },
+      largo: textoPrint },
+    { id: 'efecto-linterna', tipo: 'print', titulo: 'Efecto linterna', clp: 100000,
+      fotos: [U + '2022/06/9-2.jpg'],
+      corto: 'Quebrada del Diablo, Arica, 2010.',
+      largo: textoPrint },
+    { id: 'diaspora', tipo: 'libro', titulo: 'Diáspora', clp: 25000,
+      fotos: [U + '2022/06/Captura-de-pantalla-2019-05-28-a-las-0.webp', U + '2026/01/Captura-de-pantalla-2019-05-28-a-las-0-3-copia.jpg'],
+      corto: { es: 'Libro fotográfico, 2019.', it: 'Libro fotografico, 2019.', fr: 'Livre photographique, 2019.', en: 'Photobook, 2019.' },
+      largo: {
+        es: 'Ediciones FotoArica.<br>Edición: Álvaro Hoppe.</p><p>Registro documental de mujeres afrodescendientes del norte de Chile: sus historias, prácticas culturales y formas de organización social. A través de retratos y secuencias, una reflexión sobre identidad, memoria y pertenencia.',
+        it: 'Ediciones FotoArica.<br>A cura di Álvaro Hoppe.</p><p>Un racconto documentario sulle donne afrodiscendenti del nord del Cile: le loro storie, pratiche culturali e forme di organizzazione sociale. Attraverso ritratti e sequenze, una riflessione su identità, memoria e appartenenza.',
+        fr: 'Ediciones FotoArica.<br>Édition : Álvaro Hoppe.</p><p>Un travail documentaire sur les femmes afrodescendantes du nord du Chili : leurs histoires, leurs pratiques culturelles et leurs formes d’organisation sociale. À travers portraits et séquences, une réflexion sur l’identité, la mémoire et l’appartenance.',
+        en: 'Ediciones FotoArica.<br>Edited by Álvaro Hoppe.</p><p>A documentary record of Afro-descendant women in northern Chile: their stories, cultural practices and forms of social organization. Through portraits and sequences, a reflection on identity, memory and belonging.',
+      } },
+    { id: 'abu', tipo: 'libro', titulo: 'ABU', clp: 20000,
+      fotos: [U + '2022/06/1-8.webp', U + '2022/06/3-8.webp'],
+      corto: { es: 'Libro fotográfico, 2017.', it: 'Libro fotografico, 2017.', fr: 'Livre photographique, 2017.', en: 'Photobook, 2017.' },
+      largo: {
+        es: 'Ediciones La Visita.<br>Edición: Miguel Ángel Felipe.</p><p>La vida y la organización del pueblo afrodescendiente de Arica: sus ritos, costumbres y prácticas culturales.</p><p>Últimos 17 ejemplares.',
+        it: 'Ediciones La Visita.<br>A cura di Miguel Ángel Felipe.</p><p>La vita e l’organizzazione del popolo afrodiscendente di Arica: riti, costumi e pratiche culturali.</p><p>Ultime 17 copie disponibili.',
+        fr: 'Ediciones La Visita.<br>Édition : Miguel Ángel Felipe.</p><p>La vie et l’organisation du peuple afrodescendant d’Arica : ses rites, ses coutumes et ses pratiques culturelles.</p><p>Derniers 17 exemplaires.',
+        en: 'Ediciones La Visita.<br>Edited by Miguel Ángel Felipe.</p><p>The life and organization of the Afro-descendant people of Arica: their rites, customs and cultural practices.</p><p>Only 17 copies left.',
+      } },
+    { id: 'postales-desierto-florido', tipo: 'postal', titulo: 'Desierto Florido de Cuerpos Humanos', usd: 20,
+      fotos: [U + '2025/09/DSCF8266-1536x1022.jpg', U + '2025/09/DSCF8267-1536x1015.jpg'],
+      corto: postal(2003), largo: textoPostal },
+    { id: 'postales-apocalipsis', tipo: 'postal', titulo: 'Apocalipsis', usd: 20,
+      fotos: [U + '2025/09/DSCF8269-1536x1018.jpg', U + '2025/09/DSCF8272-1536x1024.jpg'],
+      corto: postal(2003), largo: textoPostal },
+    { id: 'postales-putre', tipo: 'postal', titulo: 'Putre', usd: 20,
+      fotos: [U + '2025/09/DSCF8270-1536x1014.jpg', U + '2025/09/DSCF8271-1536x1015.jpg', U + '2025/09/DSCF8274-1536x1023.jpg'],
+      corto: postal(2004), largo: textoPostal },
+  ];
+
+  /* ---------- Textos ---------- */
+  const bio = {
+    es: `<p><strong>Sobre mí:</strong><br>Fotógrafo chileno y Doctor en Historia del Arte de la Universidad de Perpignan, Francia, con especialización en fotografía chilena y mexicana. Tiene como base Chile e Italia y parte su carrera hace más de 20 años con trabajos realizados desde la vereda de la fotografía autoral.</p>
+      <p>El año 2002 inicia una seguidilla de registros de cuerpos pintados masivos en diferentes lugares de Chile, donde el acento era la performance que representaba la desgracia de la sociedad, para luego concentrar sus esfuerzos hasta hoy en la fotografía documental, apuntando a temas humanos, con hincapié en los grupos menos valorados por la sociedad.</p>
+      <p>Actualmente es fotógrafo de la agencia <em>Getty Images</em>, donde el registro se concentra en la riqueza de Latinoamérica y Europa. También ha trabajado para medios nacionales y ha sido colaborador de agencias internacionales como <em>France Presse</em> y <em>Majority World</em>; sus imágenes han sido parte de medios como <em>Chicago Tribune</em>, <em>CBS News</em> y <em>CBS San Francisco</em>, entre otros. Su trabajo ha sido expuesto en Francia, Corea del Sur, México, Brasil, Uruguay y Chile.</p>
+      <p>Desde 2014 crea y dirige el festival internacional de fotografía <a href="https://www.fotoarica.com/" target="_blank" rel="noopener">Foto Arica</a>. Ha publicado dos libros: <em>ABU</em> (2017), bajo el sello Ediciones La Visita, y <em>Diáspora</em> (2019), sobre las mujeres afrodescendientes y su puesta en valor, con el sello Foto Arica.</p>`,
+    it: `<p><strong>Chi sono:</strong><br>Fotografo cileno e Dottore in Storia dell’Arte all’Università di Perpignan, Francia, specializzato in fotografia cilena e messicana. Vive tra il Cile e l’Italia e ha iniziato la sua carriera più di 20 anni fa, partendo dalla fotografia d’autore.</p>
+      <p>Nel 2002 avvia una serie di registrazioni di corpi dipinti di massa in diversi luoghi del Cile, dove l’accento era posto sulla performance che rappresentava la disgrazia della società. In seguito concentra il suo lavoro, fino a oggi, sulla fotografia documentaria: temi umani, con particolare attenzione ai gruppi meno valorizzati dalla società.</p>
+      <p>Attualmente è fotografo dell’agenzia <em>Getty Images</em>, dove documenta la ricchezza dell’America Latina e dell’Europa. Ha lavorato per media nazionali e collaborato con agenzie internazionali come <em>France Presse</em> e <em>Majority World</em>; le sue immagini sono apparse su testate come <em>Chicago Tribune</em>, <em>CBS News</em> e <em>CBS San Francisco</em>, tra le altre. Il suo lavoro è stato esposto in Francia, Corea del Sud, Messico, Brasile, Uruguay e Cile.</p>
+      <p>Dal 2014 ha creato e dirige il festival internazionale di fotografia <a href="https://www.fotoarica.com/" target="_blank" rel="noopener">Foto Arica</a>. Ha pubblicato due libri: <em>ABU</em> (2017), per Ediciones La Visita, e <em>Diáspora</em> (2019), dedicato alle donne afrodiscendenti e alla loro valorizzazione, per Foto Arica.</p>`,
+    fr: `<p><strong>À propos :</strong><br>Photographe chilien et docteur en histoire de l’art de l’Université de Perpignan, spécialisé dans la photographie chilienne et mexicaine. Basé entre le Chili et l’Italie, il a commencé sa carrière il y a plus de 20 ans, du côté de la photographie d’auteur.</p>
+      <p>En 2002, il entreprend une série de prises de vue de corps peints en masse dans différents lieux du Chili, où l’accent était mis sur la performance représentant le malheur de la société. Il se consacre ensuite, jusqu’à aujourd’hui, à la photographie documentaire : des sujets humains, en particulier les groupes les moins valorisés par la société.</p>
+      <p>Il est actuellement photographe pour l’agence <em>Getty Images</em>, où il couvre la richesse de l’Amérique latine et de l’Europe. Il a travaillé pour des médias nationaux et collaboré avec des agences internationales comme <em>France Presse</em> et <em>Majority World</em> ; ses images ont été publiées notamment par le <em>Chicago Tribune</em>, <em>CBS News</em> et <em>CBS San Francisco</em>. Son travail a été exposé en France, en Corée du Sud, au Mexique, au Brésil, en Uruguay et au Chili.</p>
+      <p>Depuis 2014, il a créé et dirige le festival international de photographie <a href="https://www.fotoarica.com/" target="_blank" rel="noopener">Foto Arica</a>. Il a publié deux livres : <em>ABU</em> (2017), aux Ediciones La Visita, et <em>Diáspora</em> (2019), consacré aux femmes afrodescendantes et à leur mise en valeur, aux éditions Foto Arica.</p>`,
+    en: `<p><strong>About me:</strong><br>Chilean photographer and Doctor in Art History from the University of Perpignan, France, specializing in Chilean and Mexican photography. Based between Chile and Italy, he began his career more than 20 years ago, working from the standpoint of authorial photography.</p>
+      <p>In 2002 he began a series of recordings of mass painted bodies in different parts of Chile, where the focus was a performance representing society’s misfortune. He then turned to documentary photography, which remains his focus today: human themes, with an emphasis on the groups society values least.</p>
+      <p>He is currently a photographer for <em>Getty Images</em>, covering the richness of Latin America and Europe. He has worked for national news media and contributed to international agencies such as <em>France Presse</em> and <em>Majority World</em>; his images have appeared in the <em>Chicago Tribune</em>, <em>CBS News</em> and <em>CBS San Francisco</em>, among others. His work has been exhibited in France, South Korea, Mexico, Brazil, Uruguay and Chile.</p>
+      <p>Since 2014 he has created and directed the international photography festival <a href="https://www.fotoarica.com/" target="_blank" rel="noopener">Foto Arica</a>. He has published two books: <em>ABU</em> (2017), with Ediciones La Visita, and <em>Diáspora</em> (2019), on Afro-descendant women and their recognition, with Foto Arica.</p>`,
+  };
+
+  // [año, mes, mes final o null, obra o null, lugar]. Los nombres de las obras no se traducen.
+  const ANATA = 'Anata: entre lo pagano y lo sagrado', ARICA = 'Arica y un poco más', AFRO = 'Afrodescendiente más allá de África';
+  const teatroArica = { es: 'Teatro Municipal de Arica', it: 'Teatro Municipale di Arica', fr: 'Théâtre municipal d’Arica', en: 'Arica Municipal Theatre' };
+  const exposiciones = [[
+    [2026, 4, null, ANATA, 'Centro Cultural de la República, Copiapó'],
+    [2026, 3, null, ANATA, 'Biblioteca Municipal de San Pedro de la Paz'],
+    [2026, 1, null, ANATA, 'Corporación Cultural y de Estudios David Stitchkin Branover, Concepción'],
+    [2025, 11, null, ANATA, 'Galería Marco Bontá, Gran Logia de Chile, Santiago'],
+    [2025, 8, null, ANATA, 'Ex Aduana, Arica'],
+  ], [
+    [2024, 11, null, ARICA, { es: 'Galería Aurore, Marsella, Francia', it: 'Galleria Aurore, Marsiglia, Francia', fr: 'Galerie Aurore, Marseille, France', en: 'Aurore Gallery, Marseille, France' }],
+    [2024, 10, null, ARICA, { es: 'Alianza Francesa, Osorno', it: 'Alliance Française, Osorno', fr: 'Alliance française, Osorno', en: 'Alliance Française, Osorno' }],
+    [2023, 6, null, ARICA, { es: 'Fototeca de Zacatecas, México', it: 'Fototeca di Zacatecas, Messico', fr: 'Photothèque de Zacatecas, Mexique', en: 'Zacatecas Photo Library, Mexico' }],
+  ], [
+    [2021, 1, null, AFRO, 'AFRICAMERICANOS, Centro de Fotografía de Montevideo'],
+    [2020, 9, null, AFRO, { es: 'Festival Chambre 07, Aubenas, Francia', it: 'Festival Chambre 07, Aubenas, Francia', fr: 'Festival Chambre 07, Aubenas, France', en: 'Chambre 07 Festival, Aubenas, France' }],
+    [2019, 5, null, 'Diáspora', { es: 'Lanzamiento del fotolibro. Centro Cultural Estación Mapocho y Escuela de Fotografía Alpes, Santiago', it: 'Presentazione del libro. Centro Cultural Estación Mapocho e Escuela de Fotografía Alpes, Santiago', fr: 'Lancement du livre. Centro Cultural Estación Mapocho et Escuela de Fotografía Alpes, Santiago', en: 'Book launch. Centro Cultural Estación Mapocho and Escuela de Fotografía Alpes, Santiago' }],
+    [2018, 6, null, 'Pelo Afro', 'Galería San Marcos, Arica'],
+    [2018, 6, null, AFRO, { es: 'Korea Foundation, Seúl, Corea del Sur', it: 'Korea Foundation, Seul, Corea del Sud', fr: 'Korea Foundation, Séoul, Corée du Sud', en: 'Korea Foundation, Seoul, South Korea' }],
+    [2017, 8, null, AFRO, teatroArica],
+    [2017, 8, 10, AFRO, { es: 'Estação Cabo Branco, João Pessoa, Brasil', it: 'Estação Cabo Branco, João Pessoa, Brasile', fr: 'Estação Cabo Branco, João Pessoa, Brésil', en: 'Estação Cabo Branco, João Pessoa, Brazil' }],
+    [2017, 1, 3, AFRO, 'Centro Cultural Palacio La Moneda, Santiago'],
+    [2016, 4, null, 'Afrodescendiente', { es: 'Centro Cultural de Querétaro, México', it: 'Centro Cultural de Querétaro, Messico', fr: 'Centro Cultural de Querétaro, Mexique', en: 'Querétaro Cultural Center, Mexico' }],
+    [2014, 8, null, null, { es: 'Exposición regional Día de la Fotografía, Arica', it: 'Mostra regionale per la Giornata della Fotografia, Arica', fr: 'Exposition régionale de la Journée de la photographie, Arica', en: 'Regional exhibition for Photography Day, Arica' }],
+    [2014, 6, null, 'Afrodescendientes', 'Galería 13, Instituto Alpes'],
+  ], [
+    [2010, 5, null, 'Efecto Linterna', { es: 'Universidad de Tarapacá', it: 'Università di Tarapacá', fr: 'Université de Tarapacá', en: 'University of Tarapacá' }],
+    [2010, 4, null, 'Efecto Linterna', 'Galería Terra Amata'],
+    [2009, 12, null, 'Polinizadores de Arica', teatroArica],
+    [2003, 5, null, 'Almas desnudas', 'Casa de la Cultura, Parque Metropolitano, Santiago'],
+    [2003, 4, null, null, { es: 'Plaza de la Constitución, frente a La Moneda, Santiago', it: 'Plaza de la Constitución, davanti a La Moneda, Santiago', fr: 'Plaza de la Constitución, face à La Moneda, Santiago', en: 'Plaza de la Constitución, opposite La Moneda, Santiago' }],
+    [2002, 11, null, 'Almas desnudas', 'Antofagasta'],
+    [2002, 10, null, 'Desierto florido de cuerpos humanos', 'Casa de la Cultura, Arica'],
+  ]];
+
+  const mes = m => { const s = new Intl.DateTimeFormat(lang, { month: 'long' }).format(new Date(2000, m - 1, 1)); return s[0].toUpperCase() + s.slice(1); };
+  const textoExposiciones = () => `<p><strong>${t(ui.expos)}</strong></p>` + exposiciones.map(bloque => '<p>' + bloque.map(([a, m, hasta, obra, lugar]) =>
+    `${mes(m)}${hasta ? '–' + mes(hasta) : ''} ${a} — ${obra ? `<em>${obra}</em>. ` : ''}${t(lugar)}.`).join('<br>') + '</p>').join('');
+
+  const textoContacto = () => `<p><strong>${t(ui.contacto)}</strong><br>Christian Jamett<br>Arica, Chile<br>
+    Tel. <a href="tel:+56985863341">+56 9 8586 3341</a><br><a href="mailto:${CORREO}">${CORREO}</a></p>`;
+
+  /* ---------- Blog (las entradas de "Daily" en christianjamett.com, más nueva primero) ----------
+     Bloques: ['lead'|'p'|'h'|'cita', texto], ['img', url], ['links', [[nombre, url], ...]].
+     Si una entrada tiene versión en otro idioma (cuerpo.en), se usa; si no, va el español.
+     Se quitaron los hashtags y los botones de PayPal del original. */
+  const entradas = [
+    { id: 'estar-el-vinculo-con-la-luz', titulo: { es: 'Estar: el vínculo con la luz', it: 'Estar: il legame con la luce', fr: 'Estar : le lien avec la lumière', en: 'Estar: the bond with light' }, fecha: '2026-02-20',
+      portada: U + '2026/02/Captura-de-pantalla-2026-02-20-a-las-3.21.04-p.m-scaled.png',
+      cuerpo: { es: [
+        ['lead', 'La imagen como encuentro, luz y territorio.'],
+        ['p', 'En el extremo norte de Chile, donde el desierto dialoga con el mar y la cordillera observa desde lejos, el Carnaval Andino con la Fuerza del Sol vuelve a transformar la ciudad en un cuerpo colectivo. No es solo una festividad: es memoria en movimiento, identidad en despliegue, y un acto de resistencia cultural que mantiene vivo el pulso del mundo andino.'],
+        ['p', 'Este año, mi registro fotográfico se suma a esa energía desde una mirada que continúa el proceso iniciado en el proyecto Anata: entre lo sagrado y lo pagano. Si Anata explora la dimensión simbólica, ritual y profundamente humana del mundo andino, el carnaval se convierte en su expansión natural: la calle como escenario, la música como respiración, el traje como archivo textil.'],
+        ['h', 'Lo andino: lo único y lo irrepetible'],
+        ['p', 'El Carnaval con la Fuerza del Sol no puede entenderse solo como espectáculo. Es una manifestación compleja donde convergen comparsas, bandas de bronce, fraternidades y generaciones completas que ensayan durante meses para ocupar el espacio público con danza, sonido y color.'],
+        ['p', 'Lo andino aquí no es una postal: es comunidad organizada, es tradición transmitida, es una estética que nace del altiplano y se reinventa en la ciudad fronteriza.'],
+        ['p', 'Cada traje bordado, cada sombrero, cada instrumento de viento o percusión contiene una genealogía. Son cuerpos que portan historia. Son gestos repetidos durante décadas que construyen identidad.'],
+        ['img', U + '2025/03/DSCF5537-scaled.jpg'],
+        ['h', 'El encuentro con la imagen'],
+        ['p', 'Registrar el carnaval implica asumir una dificultad esencial: la imagen no espera. La luz cambia constantemente, el movimiento es vertiginoso, la multitud interfiere, la emoción atraviesa el encuadre.'],
+        ['p', 'Hay una tensión permanente entre el caos y la composición.'],
+        ['p', 'En la fotografía que acompaña este registro, vemos a músicos de bronce en un momento suspendido: no están en el desfile, están detrás, esperando. El uniforme marrón, el brillo metálico de los instrumentos, la barrera que los separa del público, la luz lateral que define los contornos… todo habla de ese instante previo, íntimo, humano.'],
+        ['cita', 'Ahí aparece lo que más me interesa: no el espectáculo, sino el intersticio.'],
+        ['p', 'La luz se convierte en vínculo. No solo ilumina: conecta. Une el cuerpo con el territorio, el gesto con la memoria, el fotógrafo con la escena. La luz en el norte es dura, directa, a veces implacable. Obliga a decidir rápido. Obliga a mirar con precisión.'],
+        ['p', 'En ese proceso se construye la imagen.'],
+        ['h', 'Anata como continuidad'],
+        ['p', 'Anata no es un proyecto aislado. Es una búsqueda sobre lo sagrado y lo pagano, sobre lo festivo y lo ritual, sobre aquello que parece “freak” o diferente desde afuera, pero que para quienes lo viven es profundamente significativo.'],
+        ['p', 'El carnaval se integra a esta investigación visual porque revela esa dualidad: devoción y fiesta, orden y desborde, disciplina y trance colectivo.'],
+        ['p', 'El registro de este año no busca solo documentar; busca comprender. Comprender cómo el cuerpo danzante se vuelve archivo vivo. Cómo el sonido del bronce modifica el espacio urbano. Cómo la ciudad extrema se transforma en epicentro cultural latinoamericano.'],
+        ['img', U + '2025/03/DSCF1332-scaled.jpg'],
+        ['h', 'La dificultad y la creación'],
+        ['p', 'Fotografiar el Carnaval con la Fuerza del Sol es aceptar que nunca se controla del todo la escena. La creación nace precisamente de esa tensión. La imagen no se impone: se encuentra.'],
+        ['p', 'Y ese encuentro es siempre un acto de humildad.'],
+        ['cita', 'El proyecto continúa. La luz seguirá siendo el puente. El territorio seguirá hablando.'],
+        ['p', 'Porque en el norte, cuando el sol cae sobre los trajes bordados y el bronce resuena en las calles, la fotografía no es solo registro: es diálogo con una identidad que se niega a desaparecer.'],
+      ] } },
+    { id: 'fotografo-inmortal', titulo: { es: '¿Fotógrafo inmortal?', it: 'Fotografo immortale?', fr: 'Photographe immortel ?', en: 'Immortal photographer?' }, fecha: '2022-06-30',
+      portada: U + '2022/06/fotografo-inmortal.webp',
+      cuerpo: { es: [
+        ['p', 'Pareciera ser que la imagen creadora del autor de una escena captura la esencia del tiempo, lo detuviera todo, esto casi como una frase cliché que se suma al poder de ser el hacedor de todo, solo por un instante, por unas milésimas de segundos se convierte en el controlador de la vida de sus emociones y las personas, ese es el fotógrafo, tipo egocéntrico en su inocencia de poder captar lo que está a su alrededor intentando convencer con su verdad, que es la verdad absoluta y única.'],
+        ['p', 'Qué gesto más noble de intentar buscar lo fidedigno por medio de una imagen simple en apariencia, pero llena de códigos para el eximio autor, que regala su tiempo para presentarle al resto lo que le ha robado a la vida.'],
+        ['p', 'Fotografía tomada en la celebración del 7 de junio, Arica, con un iPhone 4s (f/2,4 · 1/20).'],
+      ] } },
+    { id: 'seoul-enigmatic-city', titulo: { es: 'Seúl, ciudad enigmática', it: 'Seul, città enigmatica', fr: 'Séoul, ville énigmatique', en: 'Seoul enigmatic city!' }, fecha: '2022-06-30',
+      portada: U + '2022/06/1-13.webp',
+      cuerpo: {
+        es: [
+          ['p', 'Seúl es una magnífica ciudad capaz de marear a cualquiera, sus atractivos para hacer fotografías son únicos. Visité Corea del Sur hace un año tras ser invitado a representar a Chile en la galería internacional de Korea Foundation. Seúl es una ciudad que se destaca por su limpieza y su gente, pero también es un lugar para poder comprar cámaras fotográficas de primer nivel, usadas o nuevas.'],
+          ['img', U + '2022/06/2-13.webp'],
+          ['p', 'Recomiendo por lejos el barrio Jung-gu y otras tantas en el barrio Gangnam-gu, donde hay un sinfín de tiendas especializadas para la compra de equipo, donde los valores son un poco más bajos de los que se pueden encontrar en Tokio. De las tiendas, mis preferidas son Kasan Camera y la tienda de Leica que se encuentra en el último barrio mencionado. Te dejo los enlaces para que las puedas visitar y conocer.'],
+          ['links', [['Kasan Camera', 'http://www.kasancamera.co.kr/shop/main/index.php'], ['Leica Korea', 'http://kr.leica-camera.com/']]],
+          ['img', U + '2022/06/3-12.webp'], ['img', U + '2022/06/4-13.webp'], ['img', U + '2022/06/5-12.webp'],
+        ],
+        en: [
+          ['p', 'Seoul is a magnificent city capable of making anyone dizzy, its attractions to make photographs are unique. I visited South Korea a year ago after being invited to represent Chile in the Korea Foundation international gallery. Seoul is a city that stands out for its cleanliness and people, but it is also a place to buy first-class cameras, used or new.'],
+          ['img', U + '2022/06/2-13.webp'],
+          ['p', 'I recommend by far the Jung-gu neighborhood and many others in the Gangnam-gu neighborhood, where there are endless specialized shops for the purchase of equipment, where the prices are a bit lower than those found in Tokyo. Of the stores, my favorites are Kasan Camera and the Leica store in the last neighborhood mentioned. I leave the links so you can visit them.'],
+          ['links', [['Kasan Camera', 'http://www.kasancamera.co.kr/shop/main/index.php'], ['Leica Korea', 'http://kr.leica-camera.com/']]],
+          ['img', U + '2022/06/3-12.webp'], ['img', U + '2022/06/4-13.webp'], ['img', U + '2022/06/5-12.webp'],
+        ],
+      } },
+    { id: 'the-movie-the-excitement-and-a-little-more', titulo: { es: 'La película, la emoción y un poco más', it: 'La pellicola, l’emozione e qualcosa in più', fr: 'La pellicule, l’émotion et un peu plus', en: 'The movie, the excitement and a little more!!' }, fecha: '2022-06-29',
+      portada: U + '2022/06/1-2.jpg',
+      cuerpo: {
+        es: [
+          ['p', 'Te habla un fotógrafo que nació en los 80 viendo en los cumpleaños y fiestas familiares esbozar a mi madre, abuelos y tío una cámara con película. Cuando me dediqué a la fotografía mi única posibilidad era sí o sí trabajar con negativos. Si bien es cierto la fotografía digital apareció en 1996 (Juegos Olímpicos de Atlanta 96), no se había masificado tanto por sus precios en el resto del mundo, en especial en Chile.'],
+          ['p', 'Yo, un joven fotógrafo de 22 años, pretencioso, recientemente padre y con pocos recursos en el bolsillo, realicé mi primer proyecto masivo (Desierto florido de cuerpos humanos, 2002) y aún recuerdo las dos películas Kodachrome y las 5 películas Kodak 200 ISO en mi pantalón, prensa, gente y una angustiosa población atenta a este gran proyecto, amigos comprometidos y todo el mundo atento al resultado. Pero por sobre todas las cosas siempre recuerdo la conexión que uno debe sentir con el equipo con que trabaja: en mi caso era una fiel y bien admirada Zenit 122 regalada por mi madre.'],
+          ['cita', 'Todos estos elementos son esenciales para conjugar lo que he construido solo sintiendo dedicación por lo que más amo después de mi familia, que es la fotografía.'],
+          ['img', U + '2022/06/2-2.jpg'],
+          ['p', 'La elección de la película es fundamental. En este caso eran protagonistas de una imagen llena de colores donde pintores amigos y voluntarios fueron parte de este bello proyecto, y una vez más mis agradecimientos a ellos. La necesidad de lo físico es mi esencial necesidad de trabajar con película, con lo tangible.'],
+          ['p', 'Esta relación se basa en sentir la película, imaginar lo que registró, lo que detuvo en el tiempo; sensaciones que solo se pueden entender en el ejercicio de utilizar un equipo analógico. Déjame decirte que es una atracción que te atrapa y te da migajas para que siempre vuelvas por ella.'],
+        ],
+        en: [
+          ['p', 'This is a photographer who was born in the 80s, watching my mother, grandparents and uncle sketch a camera with film on birthdays and family parties. When I dedicated myself to photography my only possibility was to work with negatives. Although digital photography appeared in 1996 (Atlanta 96 Olympic Games), it had not become widespread due to its prices in the rest of the world, especially Chile.'],
+          ['p', 'I, a pretentious 22-year-old photographer, recently a father and with few resources in my pocket, carried out my first massive project (Flowery Desert of Human Bodies, 2002), and I still remember the two Kodachrome films and the 5 Kodak 200 ISO films in my pants, press, people and an anxious population attentive to this great project, committed friends and everyone attentive to the result. But above all I always remember the connection one must feel with the equipment one works with: in my case a faithful and well admired Zenit 122 given by my mother.'],
+          ['cita', 'All these elements are essential to combine what I have built, just feeling dedication for what I love the most after my family, which is photography.'],
+          ['img', U + '2022/06/2-2.jpg'],
+          ['p', 'The choice of the film is essential. In this case they were the protagonists of an image full of colors, where painter friends and volunteers were part of this beautiful project, and once again my thanks to them. The need for the physical is my essential need to work with film, with the tangible.'],
+          ['p', 'This relationship is based on feeling the film, imagining what it registered, what it stopped in time; sensations that can only be understood in the exercise of using analog equipment. Let me tell you it is an attraction that catches you and gives you crumbs so that you always come back for it.'],
+        ],
+      } },
+  ];
+
+  /* ---------- Páginas y menú ---------- */
+  const paginas = {
+    'arica-y-un-poco-mas': { titulo: 'Arica y un poco más', fotos: fotos('2022/10/', ['IMG_1157.jpg']).concat(U + '2025/09/DSCF8326-scaled.jpg', fotos('2022/10/', ['IMG_4822.jpg','DSCF8868.jpg','DSCF0648.jpg','DSCF0472.jpg','DSCF0466.jpg','DSCF0641.jpg','DSCF0659.jpg','IMG_0956.jpg','DSCF0663.jpg'])) },
+    'napoli-della-illusioni': { titulo: 'Napoli della Illusioni', fotos: fotos('2026/06/', ['DSCF9053-scaled.jpg','DSCF9656-scaled.jpg','foto-vertical-scaled.png','DSCF9060-scaled.jpg','DSCF9103-scaled.jpg','DSCF9219-scaled.jpg','DSCF9645-scaled.jpg','DSCF9187-scaled.jpg','DSCF9147-scaled.jpg','DSCF9242-scaled.jpg','DSCF9232-scaled.jpg']) },
+    'frontier': { titulo: 'Frontiér', fotos: fotos('2023/11/', ['IMG_0750.jpg','IMG_0826.jpg','IMG_1412.jpg','IMG_0705.jpg','IMG_0745.jpg','DSCF1321-1.jpg','DSCF1123.jpg','DSCF1155.jpg','DSCF1099.jpg','DSCF1168.jpg','DSCF1175.jpg','DSCF1347.jpg','DSCF1332.jpg','DSCF1325.jpg']) },
+    'santisima': { titulo: 'Santísima', fotos: fotos('2025/03/', ['DSCF2652.jpg','DSCF2438.jpg','DSCF2447.jpg','DSCF2727.jpg','DSCF2734.jpg','DSCF2754.jpg','DSCF2868.jpg','DSCF2909.jpg','DSCF3005.jpg','DSCF3009.jpg','DSCF3029.jpg']) },
+    'anata': { titulo: 'Anata: Lo sagrado', fotos: [
+      '2025/03/1.jpg','2025/02/DSCF5248-1.jpg','2025/02/DSCF5094-1.jpg','2025/03/3.jpg','2025/02/DSCF5222-1.jpg','2025/03/CHRISTIAN-JAMETT-scaled.jpg','2025/03/5-scaled.jpg','2025/03/DSCF5883-scaled.jpg','2025/03/DSCF6101-scaled.jpg','2025/03/DSCF6081-scaled.jpg','2025/03/DSCF6062-scaled.jpg','2025/02/DSCF5622.jpg','2025/08/DSCF5983.jpg','2025/03/DSCF5445-scaled.jpg','2025/03/DSCF1332-scaled.jpg','2025/02/DSCF5401-1.jpg','2025/02/DSCF5554.jpg','2025/03/DSCF1408-scaled.jpg','2025/03/DSCF1405-scaled.jpg','2025/03/DSCF5166-scaled.jpg','2025/02/DSCF5567.jpg','2025/03/DSCF1369-scaled.jpg','2025/03/DSCF1333-scaled.jpg','2025/03/DSCF5221-scaled.jpg','2025/03/2-1.jpg','2025/02/DSCF5820.jpg','2025/02/DSCF5833.jpg','2025/03/DSCF1409-scaled.jpg','2025/02/DSCF5768.jpg','2025/03/DSCF5930-scaled.jpg','2025/03/DSCF5784-scaled.jpg'
+    ].map(n => U + n) },
+    'afrodescendants': { titulo: 'Afrodescendants', fotos: fotos('2022/06/', Array.from({ length: 16 }, (_, i) => (i + 1) + '.jpg')) },
+    'chile-naked': { titulo: 'Chile naked', fotos: fotos('2022/06/', Array.from({ length: 12 }, (_, i) => (i + 1) + '-2.jpg')) },
+    'my-tokyo': { titulo: 'My Tokyo', fotos: fotos('2022/06/', ['1-4','2-4','3-4','4-4','5-4','6-4','7-4','8-4','9-4','10-4','11-4','12-4','13-3','16-3','17-2','18-2','19-2','14-3','15-3','20-2','21-2','22-3','23-2','24-2','25-2'].map(n => n + '.jpg')) },
+
+    'tearsheets': { titulo: 'Tearsheets', fotos: [
+      '2025/06/THE-GURDIAN--scaled.jpg','2023/11/Captura-de-Pantalla-2023-04-29-a-las-11.50.25.png','2023/11/Captura-de-Pantalla-2023-04-29-a-las-11.51.20.png','2023/11/Captura-de-Pantalla-2023-04-29-a-las-11.53.14.png','2023/11/Captura-de-Pantalla-2023-05-09-a-las-11.46.08.png','2023/11/Captura-de-Pantalla-2023-04-29-a-las-11.54.19.png','2023/11/Captura-de-Pantalla-2023-05-09-a-las-11.48.17.png',
+      '2022/06/27.webp','2022/06/26.webp','2022/06/25.webp','2022/06/7-5.webp','2022/06/6-6.webp','2022/06/14-1.webp','2022/06/15-1.webp','2022/06/16-1.webp','2022/06/17.webp','2022/06/20.webp','2022/06/19.webp','2022/06/18.webp','2022/06/22.webp','2022/06/23.webp','2022/06/21.webp','2022/06/28.webp','2022/06/29.webp'
+    ].map(n => U + n) },
+    'interview': { titulo: { es: 'Interview', it: 'Interviste', fr: 'Entretiens', en: 'Interview' }, fotos: [
+      '2026/01/Captura-de-pantalla-2026-01-25-a-las-8.16.11-p.m.png','2026/01/Captura-de-pantalla-2026-01-25-a-las-8.16.35-p.m.png','2026/01/Captura-de-pantalla-2026-01-25-a-las-8.16.53-p.m.png','2026/05/PDF-DOMINGO-19-DE-ABRIL-2026-DIARIO-CHANARCILLO_-16-scaled.jpg',
+      '2022/07/4b.jpeg','2022/07/1b.jpeg','2022/07/2b-1.jpeg','2022/07/3b.jpeg','2023/11/diario-la-jornada-1.png','2023/11/diario-la-jornada-2.png','2022/06/the-korea-times.jpg','2023/11/expreso-zacatecas-1.png','2022/06/prensa-mexicana.jpg','2022/06/herencia-africana.jpg','2022/07/portada-captura-raw.jpeg','2022/07/REVISTA-CAPTURA-RAW-AGOSTO2_page-0001.jpg','2022/06/afrochilenos.jpg'
+    ].map(n => U + n) },
+
+    'blog': { titulo: 'Blog', blog: true },
+    'venta': { titulo: { es: 'Venta (Store)', it: 'Vendita (Store)', fr: 'Boutique (Store)', en: 'Store' }, tienda: true },
+    'photo-studio': { titulo: { es: 'Photo Studio', it: 'Studio fotografico', fr: 'Studio photo', en: 'Photo Studio' }, fotos: [
+      '2026/01/TEXTO-FINAL-ESTUDIO-scaled.jpg','2022/06/1-5.jpg','2022/06/2-5.jpg','2022/06/3-5.jpg','2022/06/1-9.webp','2022/06/2-9.webp','2022/06/3-9.webp','2022/06/5-8.webp','2022/06/4-9.webp','2022/06/6-8.webp','2022/06/9-5.webp','2022/06/11-3.webp','2022/06/7-7.webp','2022/06/8-5.webp','2022/06/10-5.webp'
+    ].map(n => U + n) },
+
+    'exhibitions': { titulo: { es: 'Exhibitions', it: 'Mostre', fr: 'Expositions', en: 'Exhibitions' }, texto: textoExposiciones },
+    'bio': { titulo: 'Bio', texto: () => t(bio) },
+    'contact': { titulo: { es: 'Contact', it: 'Contatti', fr: 'Contact', en: 'Contact' }, texto: textoContacto },
+  };
+
+  const orden = [
+    '', null,
+    'venta', null,
+    'arica-y-un-poco-mas', 'napoli-della-illusioni', 'frontier', 'santisima', 'anata', null,
+    'afrodescendants', 'chile-naked', 'my-tokyo', null,
+    'tearsheets', 'interview', 'blog', null,
+    'photo-studio', null,
+    'exhibitions', 'bio', 'contact',
+  ];
+
+  /* ---------- Pies de foto: lugar y año ----------
+     Fuentes: fecha de captura guardada en cada foto (EXIF), Getty Images (Las Peñas 6-oct-2024,
+     frontera Santa Rosa 26-abr-2023, Carnaval con la Fuerza del Sol 2025) y los textos de cada serie.
+     null = año no confirmado (sin fecha en la foto o fecha de cámara dudosa); se muestra solo el lugar. */
+  const L = {
+    arica: { es: 'Arica, Chile', it: 'Arica, Cile', fr: 'Arica, Chili', en: 'Arica, Chile' },
+    napoli: { es: 'Nápoles, Italia', it: 'Napoli, Italia', fr: 'Naples, Italie', en: 'Naples, Italy' },
+    frontera: { es: 'Frontera Chile–Perú, Arica', it: 'Confine Cile–Perù, Arica', fr: 'Frontière Chili–Pérou, Arica', en: 'Chile–Peru border, Arica' },
+    penas: { es: 'Santuario de Las Peñas, Arica, Chile', it: 'Santuario de Las Peñas, Arica, Cile', fr: 'Sanctuaire de Las Peñas, Arica, Chili', en: 'Las Peñas Sanctuary, Arica, Chile' },
+    carnaval: { es: 'Carnaval con la Fuerza del Sol, Arica, Chile', it: 'Carnaval con la Fuerza del Sol, Arica, Cile', fr: 'Carnaval con la Fuerza del Sol, Arica, Chili', en: 'Carnaval con la Fuerza del Sol, Arica, Chile' },
+    chile: { es: 'Chile', it: 'Cile', fr: 'Chili', en: 'Chile' },
+    santiago: { es: 'Piscina Antilén, Santiago, Chile', it: 'Piscina Antilén, Santiago, Cile', fr: 'Piscine Antilén, Santiago, Chili', en: 'Antilén Pool, Santiago, Chile' },
+    putre: { es: 'Putre, Chile', it: 'Putre, Cile', fr: 'Putre, Chili', en: 'Putre, Chile' },
+    diablo: { es: 'Quebrada del Diablo, Arica, Chile', it: 'Quebrada del Diablo, Arica, Cile', fr: 'Quebrada del Diablo, Arica, Chili', en: 'Quebrada del Diablo, Arica, Chile' },
+    tokio: { es: 'Tokio, Japón', it: 'Tokyo, Giappone', fr: 'Tokyo, Japon', en: 'Tokyo, Japan' },
+  };
+  const pies = (lugar, anios) => anios.map(a => [lugar, a]);
+  const C = [L.carnaval, 2025], A = [L.arica, null];
+  paginas['arica-y-un-poco-mas'].pies = pies(L.arica, [2021, 2025, 2019, 2012, 2012, null, null, 2012, 2012, 2015, 2012]);
+  paginas['napoli-della-illusioni'].pies = pies(L.napoli, [2025, 2026, null, 2025, 2025, 2025, 2026, 2025, 2025, 2025, 2025]);
+  paginas['frontier'].pies = pies(L.frontera, [2021, 2021, 2021, 2021, 2021, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023]);
+  paginas['santisima'].pies = pies(L.penas, Array(11).fill(2024));
+  // Las fotos con fecha de cámara 2010 o 1-ene-2023 quedan solo con el lugar
+  paginas['anata'].pies = [C, C, C, C, C, A, A, C, C, C, C, C, C, C, A, C, C, A, A, C, C, A, A, C, C, C, C, A, C, C, C];
+  paginas['afrodescendants'].pies = pies(L.arica, Array(16).fill(null));
+  paginas['chile-naked'].pies = [[L.chile, '2002–2005'], [L.chile, '2002–2005'], [L.chile, '2002–2005'], [L.santiago, 2003], [L.putre, 2005], [L.arica, 2004],
+    [L.chile, '2002–2005'], [L.chile, '2002–2005'], [L.diablo, 2010], [L.chile, '2002–2005'], [L.chile, '2002–2005'], [L.chile, '2002–2005']];
+  paginas['my-tokyo'].pies = pies(L.tokio, Array(25).fill(2018));
+
+  const pieDe = new Map([[U + '2026/01/entierro10-2-1536x1024.jpg', [L.arica, 2016]]]);
+  Object.values(paginas).forEach(p => p.pies && p.fotos.forEach((src, i) => pieDe.set(src, p.pies[i])));
+  const textoPie = src => { const pie = pieDe.get(src); return pie ? `${t(pie[0])}${pie[1] ? ', ' + pie[1] : ''}.` : ''; };
+
+  // Inicio: la foto de portada actual y las dos primeras de cada serie
+  const series = ['arica-y-un-poco-mas', 'napoli-della-illusioni', 'frontier', 'santisima', 'anata', 'afrodescendants', 'chile-naked', 'my-tokyo'];
+  paginas[''] = { titulo: { es: 'Home', it: 'Home', fr: 'Accueil', en: 'Home' }, fotos: [U + '2026/01/entierro10-2-1536x1024.jpg'].concat(series.flatMap(s => paginas[s].fotos.slice(0, 2))) };
+
+  /* ---------- Render ---------- */
+  const menu = document.getElementById('menu');
+  const contenido = document.getElementById('contenido');
+  const lateral = document.querySelector('.lateral');
+  const abrirMenu = document.getElementById('abrir-menu');
+  const esc = s => String(s).replace(/"/g, '&quot;');
+  // Precio real (CLP, o USD en las postales) y su equivalente aproximado en la otra moneda
+  const clp = n => '$' + n.toLocaleString('es-CL') + ' CLP';
+  const precio = p => p.clp ? clp(p.clp) : p.usd ? `USD ${p.usd} ${t(ui.cadaUna)}` : t(ui.aPedido);
+  const aprox = p => p.clp ? `≈ USD ${Math.round(p.clp / CLP_POR_USD / 5) * 5}`
+    : p.usd ? `≈ ${clp(Math.round(p.usd * CLP_POR_USD / 1000) * 1000)}` : '';
+  const precioCompleto = p => precio(p) + (aprox(p) ? ` · ${aprox(p)}` : '');
+  const img = (src, alt, i) => `<img src="${src}" alt="${esc(alt)}" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async">`;
+
+  // Las cintas de la portada actual; solo se muestran en el celular
+  const cintas = () => `<nav class="cintas" aria-label="${esc(t(ui.atajos))}">
+    ${[['#/venta', ui.cintaVenta], ['#/blog', 'Blog'], ['#/photo-studio', ui.cintaEstudio]].map(([href, texto]) =>
+      `<a class="cinta" href="${href}"><span class="papel"><span class="marca">${t(texto)}</span></span></a>`).join('')}
+  </nav>`;
+
+  // Blog: portada con la última entrada destacada, y cada entrada como página de lectura
+  const cuerpoDe = e => e.cuerpo[lang] || e.cuerpo.es;
+  const fechaLarga = f => new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(f + 'T12:00'));
+  const minutos = e => Math.max(1, Math.round(cuerpoDe(e).filter(b => b[0] !== 'img' && b[0] !== 'links')
+    .reduce((n, b) => n + b[1].split(/\s+/).length, 0) / 200));
+  const metaDe = e => `${fechaLarga(e.fecha)} · ${minutos(e)} ${t(ui.lectura)}`;
+
+  function vistaBlog() {
+    return `<div class="blog">${entradas.map((e, i) => {
+      const extracto = cuerpoDe(e).find(b => b[0] === 'p')[1];
+      return `<article class="entrada-item${i === 0 ? ' destacada' : ''}" data-aparece>
+        <a class="foto" href="#/blog/${e.id}" tabindex="-1" aria-hidden="true">${img(e.portada, '', i)}</a>
+        <div>
+          <div class="meta lucida">${metaDe(e)}</div>
+          <h2><a href="#/blog/${e.id}">${t(e.titulo)}</a></h2>
+          <p class="extracto">${extracto}</p>
+          <a class="leer" href="#/blog/${e.id}" tabindex="-1">${t(ui.leer)} <span aria-hidden="true">→</span></a>
+        </div>
+      </article>`;
+    }).join('')}</div>`;
+  }
+
+  function vistaEntrada(e) {
+    const i = entradas.indexOf(e);
+    const nueva = entradas[i - 1], vieja = entradas[i + 1];
+    const bloque = ([tipo, v]) =>
+      tipo === 'img' ? `<figure data-aparece>${img(v, t(e.titulo), 9)}</figure>`
+      : tipo === 'h' ? `<h2 data-aparece>${v}</h2>`
+      : tipo === 'cita' ? `<p class="cita" data-aparece>${v}</p>`
+      : tipo === 'lead' ? `<p class="lead">${v}</p>`
+      : tipo === 'links' ? `<p>${v.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(' · ')}</p>`
+      : `<p>${v}</p>`;
+    return `<article class="entrada">
+      <a class="volver lucida" href="#/blog">← Blog</a>
+      <h1>${t(e.titulo)}</h1>
+      <div class="meta lucida">${metaDe(e)}</div>
+      <div class="portada">${img(e.portada, t(e.titulo), 0)}</div>
+      <div class="cuerpo">${cuerpoDe(e).map(bloque).join('')}</div>
+      <nav class="vecinas">
+        ${vieja ? `<a href="#/blog/${vieja.id}"><span class="meta lucida">← ${t(ui.anterior)}</span><strong>${t(vieja.titulo)}</strong></a>` : '<span></span>'}
+        ${nueva ? `<a class="derecha" href="#/blog/${nueva.id}"><span class="meta lucida">${t(ui.siguiente)} →</span><strong>${t(nueva.titulo)}</strong></a>` : ''}
+      </nav>
+    </article>`;
+  }
+
+  // Apariciones al bajar: cada bloque con data-aparece entra cuando asoma en pantalla
+  const observador = 'IntersectionObserver' in window ? new IntersectionObserver(lista => lista.forEach(x => {
+    if (x.isIntersecting) { x.target.classList.add('visible'); observador.unobserve(x.target); }
+  }), { rootMargin: '0px 0px -8% 0px' }) : null;
+  const observarApariciones = () => contenido.querySelectorAll('[data-aparece]').forEach(el =>
+    observador ? observador.observe(el) : el.classList.add('visible'));
+
+  function vistaTienda() {
+    return `<div class="tienda"><div class="grilla">${productos.map((p, i) => `<a href="#/venta/${p.id}">
+      <span class="tipo lucida">${i === 0 || productos[i - 1].tipo !== p.tipo ? t(ui[p.tipo]) : ''}</span>
+      <span class="marco">${img(p.fotos[0], p.titulo, i)}</span>
+      <div class="pie lucida"><strong>${p.titulo}</strong><br>${t(p.corto)}<br><span class="precio">${precioCompleto(p)}</span></div>
+    </a>`).join('')}</div></div>`;
+  }
+
+  // Si un grupo no cabe en lo que queda de la fila, empieza en la siguiente (así no se parte)
+  function noPartirGrupos() {
+    const grilla = contenido.querySelector('.grilla');
+    if (!grilla) return;
+    const fichas = [...grilla.children];
+    fichas.forEach(a => { a.style.gridColumnStart = ''; });
+    const cols = getComputedStyle(grilla).gridTemplateColumns.split(' ').length;
+    let pos = 0;
+    for (let i = 0; i < productos.length;) {
+      let n = 1;
+      while (productos[i + n] && productos[i + n].tipo === productos[i].tipo) n++;
+      if (pos > 0 && pos + n > cols && n <= cols) { fichas[i].style.gridColumnStart = 1; pos = 0; }
+      pos = (pos + n) % cols;
+      i += n;
+    }
+  }
+  addEventListener('resize', () => requestAnimationFrame(noPartirGrupos));
+
+  function vistaProducto(p) {
+    const asunto = encodeURIComponent(p.titulo);
+    return `<div class="ficha">
+      <div class="imagenes">${p.fotos.map((src, i) => img(src, `${p.titulo}, ${t(ui.foto)} ${i + 1}`, i)).join('')}</div>
+      <div class="datos lucida">
+        <p><strong>${p.titulo}</strong><br><span class="precio">${precioCompleto(p)}</span></p>
+        <p>${t(p.corto)}</p>
+        ${p.intro ? `<p>${t(p.intro)}</p>` : ''}
+        <p>${t(p.largo)}</p>
+        <p>${t(ui.consultas)}: <a href="mailto:${CORREO}?subject=${asunto}">${CORREO}</a></p>
+      </div>
+    </div>`;
+  }
+
+  function mostrar() {
+    const [id, sub] = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
+    const actual = paginas[id] ? id : '';
+    const p = paginas[actual];
+    const producto = actual === 'venta' && productos.find(x => x.id === sub);
+    const entrada = actual === 'blog' && entradas.find(x => x.id === sub);
+
+    document.documentElement.lang = lang;
+    document.body.classList.toggle('en-inicio', !actual);
+    document.title = (producto || entrada) ? `${t((producto || entrada).titulo)} — Christian Jamett` : actual ? `${t(p.titulo)} — Christian Jamett` : 'Christian Jamett';
+    menu.innerHTML = orden.map((k, i) => k === null
+      ? '<li class="espacio" aria-hidden="true"></li>'
+      : `<li style="--i:${i}"><a href="#/${k}"${k === actual ? ' aria-current="page"' : ''}>${t(paginas[k].titulo)}</a></li>`).join('');
+    document.getElementById('derechos').textContent = t(ui.derechos);
+    abrirMenu.setAttribute('aria-label', t(lateral.classList.contains('abierto') ? ui.cerrar : ui.menu));
+    document.getElementById('idiomas').innerHTML = IDIOMAS.map(l =>
+      `<button type="button" lang="${l}" aria-pressed="${l === lang}">${l.toUpperCase()}</button>`).join('');
+
+    contenido.innerHTML = producto ? vistaProducto(producto)
+      : entrada ? vistaEntrada(entrada)
+      : p.blog ? vistaBlog()
+      : p.tienda ? vistaTienda()
+      : p.texto ? `<div class="texto">${p.texto()}</div>`
+      : `<div class="galeria${actual ? '' : ' inicio'}">${p.fotos.map((src, i) => `<figure>${img(src, `${t(p.titulo)}, ${t(ui.foto)} ${i + 1}`, i)}${
+          textoPie(src) ? `<figcaption class="lucida">${textoPie(src)}</figcaption>` : ''}</figure>`).join('')}${actual ? '' : cintas()}</div>
+          <div class="pie-fijo lucida" aria-hidden="true"></div>`;
+    noPartirGrupos();
+    actualizarPie();
+    observarApariciones();
+    actualizarProgreso();
+  }
+
+  // Menú del celular (pantalla completa; mientras está abierto la página de fondo no se desplaza)
+  function cerrarMenu() {
+    lateral.classList.remove('abierto');
+    abrirMenu.setAttribute('aria-expanded', 'false');
+    abrirMenu.setAttribute('aria-label', t(ui.menu));
+    document.body.style.overflow = '';
+  }
+  abrirMenu.addEventListener('click', () => {
+    const abierto = lateral.classList.toggle('abierto');
+    abrirMenu.setAttribute('aria-expanded', String(abierto));
+    abrirMenu.setAttribute('aria-label', t(abierto ? ui.cerrar : ui.menu));
+    document.body.style.overflow = abierto ? 'hidden' : '';
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && lateral.classList.contains('abierto')) { cerrarMenu(); abrirMenu.focus(); } });
+
+  addEventListener('hashchange', () => { animando = false; destino = 0; cerrarMenu(); mostrar(); scrollTo(0, 0); });
+  document.getElementById('idiomas').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    lang = b.lang;
+    try { localStorage.setItem('idioma', lang); } catch (err) {}
+    mostrar();
+  });
+  mostrar();
+
+  // Carrusel suave: la rueda fija un destino y la tira se acerca a él frenando de a poco.
+  // Va siempre activo (también con "reducir movimiento"), porque el usuario lo pidió.
+  let destino = 0, animando = false, antes = 0;
+  const maxX = () => document.documentElement.scrollWidth - innerWidth;
+  function avanzar(ahora) {
+    const falta = destino - scrollX;
+    if (!animando) return;
+    if (Math.abs(falta) < 1) { scrollTo(destino, 0); animando = false; return; }
+    // Fracción por tiempo transcurrido, para que se sienta igual en monitores de 60 o 144 Hz
+    const k = 1 - Math.pow(0.92, Math.min(ahora - antes, 50) / 16.7);
+    antes = ahora;
+    // mínimo 1 px por cuadro: el navegador puede redondear el desplazamiento y dejarlo pegado
+    scrollTo(scrollX + (Math.abs(falta * k) < 1 ? Math.sign(falta) : falta * k), 0);
+    requestAnimationFrame(avanzar);
+  }
+  addEventListener('wheel', e => {
+    if (!contenido.querySelector('.galeria') || innerWidth <= 760 || e.target.closest('.lateral')) return;
+    e.preventDefault();
+    if (!animando) destino = scrollX;
+    destino = Math.max(0, Math.min(maxX(), destino + e.deltaY + e.deltaX));
+    if (!animando) { animando = true; antes = performance.now(); requestAnimationFrame(avanzar); }
+  }, { passive: false });
+
+  // El pie fijo muestra el lugar y año de la foto que se está viendo (la primera que asoma tras el menú)
+  function actualizarPie() {
+    const pie = contenido.querySelector('.pie-fijo');
+    if (!pie) return;
+    const borde = document.querySelector('.lateral').offsetWidth + 120;
+    const figura = [...contenido.querySelectorAll('.galeria figure')].find(f => f.getBoundingClientRect().right > borde);
+    const texto = figura ? textoPie(figura.querySelector('img').getAttribute('src')) : '';
+    if (pie.textContent !== texto) pie.textContent = texto;
+  }
+  // Barra fina arriba que avanza según cuánto se ha leído de la entrada
+  function actualizarProgreso() {
+    const total = document.documentElement.scrollHeight - innerHeight;
+    document.getElementById('progreso').style.transform = `scaleX(${contenido.querySelector('.entrada') && total > 0 ? Math.min(1, scrollY / total) : 0})`;
+  }
+  addEventListener('scroll', () => {
+    if (!animando) destino = scrollX; // barra de desplazamiento o teclado
+    actualizarPie();
+    actualizarProgreso();
+  }, { passive: true });
+  contenido.addEventListener('load', actualizarPie, true); // los anchos reales llegan cuando carga cada foto
+</script>
+</body>
+</html>
