@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Open Sans 300/600: la misma que usa albertopolophotography.com. Inter 200 imita su logo (Helvetica Neue Light en PNG). -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,600;1,300&family=Inter:wght@200&family=Gochi+Hand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,600;1,300&family=Inter:wght@200&family=Gochi+Hand&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #fff; }
@@ -41,6 +41,8 @@
   .galeria figure { flex: none; }
   .galeria img { display: block; height: calc(100vh - 283px); min-height: 320px; width: auto; background: #f9f9f9; }
   .galeria figcaption { margin-top: 6px; font-size: 11px; font-weight: 800; line-height: 17px; display: none; }
+  /* Lema manuscrito bajo la portada, como en el christianjamett.com anterior */
+  .lema { margin-top: 2px; text-align: right; font-family: "Gloria Hallelujah", cursive; font-size: 21px; line-height: 30px; color: #444; }
   /* Pie fijo bajo la tira: no se mueve con las fotos, cambia según la foto a la vista */
   .pie-fijo {
     position: fixed; left: 315px; top: calc(146px + max(100vh - 283px, 320px));
@@ -229,6 +231,7 @@
     @media (prefers-reduced-motion: reduce) { .menu li { transform: none; } }
     .galeria img { width: 100%; height: auto; min-height: 0; }
     .galeria figcaption { display: block; }
+    .lema { font-size: 15px; line-height: 22px; }
     .pie-fijo { display: none; }
     .grilla { grid-template-columns: repeat(2, 1fr); gap: 28px 14px; }
     .marco { padding: 8px; }
@@ -729,7 +732,8 @@
       : p.tienda ? vistaTienda()
       : p.texto ? `<div class="texto">${p.texto()}</div>`
       : `<div class="galeria${actual ? '' : ' inicio'}">${p.fotos.map((src, i) => `<figure>${img(src, `${t(p.titulo)}, ${t(ui.foto)} ${i + 1}`, i)}${
-          textoPie(src) ? `<figcaption class="lucida">${textoPie(src)}</figcaption>` : ''}</figure>`).join('')}${actual ? '' : cintas()}</div>
+          textoPie(src) ? `<figcaption class="lucida">${textoPie(src)}</figcaption>` : ''}${
+          actual ? '' : '<p class="lema" lang="la">Memento mori, et in luce renasceris</p>'}</figure>`).join('')}${actual ? '' : cintas()}</div>
           <div class="pie-fijo lucida" aria-hidden="true"></div>`;
     noPartirGrupos();
     actualizarPie();
