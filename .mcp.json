@@ -3,6 +3,10 @@
     "playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "playwright-brave": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--extension", "--executable-path", "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"]
     }
   }
 }
